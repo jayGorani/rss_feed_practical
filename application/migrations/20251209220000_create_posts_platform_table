@@ -1,0 +1,118 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Migration_create_posts_platform_table extends CI_Migration {
+
+    public function up()
+    {
+        if ($this->db->table_exists('posts_platform')) {
+            $this->dbforge->drop_table('posts_platform', TRUE);
+        }
+
+        $this->dbforge->add_field([
+            'platform_id' => [
+                'type'           => 'INT',
+                'unsigned'       => TRUE,
+                'auto_increment' => TRUE
+            ],
+            'platfrom_name' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 20,
+                'null'       => FALSE,
+            ],
+            'char_max_lenth' => [
+                'type'       => 'INT',
+                'null'       => FALSE,
+                'default'    => 0,
+                'comment'    => 'Maximum allow char length for platform'
+            ],
+            'tagged_html' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 1000,
+                'null'       => TRUE,
+            ],
+            'status' => [
+                'type'       => "ENUM('enable','disable')",
+                'default'    => 'enable',
+                'null'       => FALSE
+            ],
+            'created_at' => [
+                'type'       => 'DATETIME',
+                'null'       => FALSE,
+                'default'    => 'CURRENT_TIMESTAMP'
+            ],
+        ]);
+
+        $this->dbforge->add_key('platform_id', TRUE);
+        $this->dbforge->add_key('platfrom_name', TRUE);
+
+        $this->dbforge->create_table('posts_platform', TRUE);
+
+        $data = [
+            [
+                'platform_id'     => 1,
+                'platfrom_name'   => 'Facebook',
+                'char_max_lenth'  => 0,
+                'tagged_html'     => '<span class="platform-tag platform-facebook"><i class="bi bi-facebook"></i>Facebook</span>',
+                'status'          => 'enable',
+                'created_at'      => date('Y-m-d H:i:s')
+            ],
+            [
+                'platform_id'     => 2,
+                'platfrom_name'   => 'LinkedIn',
+                'char_max_lenth'  => 0,
+                'tagged_html'     => '<span class="platform-tag platform-linkedin"><i class="bi bi-linkedin"></i> LinkedIn </span>',
+                'status'          => 'enable',
+                'created_at'      => date('Y-m-d H:i:s')
+            ],
+            [
+                'platform_id'     => 3,
+                'platfrom_name'   => 'TikTok',
+                'char_max_lenth'  => 0,
+                'tagged_html'     => '<span class="platform-tag platform-tiktok"><i class="bi bi-tiktok"></i> TikTok </span>',
+                'status'          => 'enable',
+                'created_at'      => date('Y-m-d H:i:s')
+            ],
+            [
+                'platform_id'     => 4,
+                'platfrom_name'   => 'Instagram',
+                'char_max_lenth'  => 0,
+                'tagged_html'     => '<span class="platform-tag platform-instagram"><i class="bi bi-instagram"></i> Instagram </span>',
+                'status'          => 'enable',
+                'created_at'      => date('Y-m-d H:i:s')
+            ],
+            [
+                'platform_id'     => 5,
+                'platfrom_name'   => 'Threads',
+                'char_max_lenth'  => 0,
+                'tagged_html'     => '<span class="platform-tag platform-threads"><i class="bi bi-threads"></i> Threads</span>',
+                'status'          => 'enable',
+                'created_at'      => date('Y-m-d H:i:s')
+            ],
+            [
+                'platform_id'     => 6,
+                'platfrom_name'   => 'Bluesky',
+                'char_max_lenth'  => 0,
+                'tagged_html'     => '<span class="platform-tag platform-bluesky"><i class="bi bi-cloud"></i> Bluesky</span>',
+                'status'          => 'enable',
+                'created_at'      => date('Y-m-d H:i:s')
+            ],
+            [
+                'platform_id'     => 7,
+                'platfrom_name'   => 'X',
+                'char_max_lenth'  => 280,
+                'tagged_html'     => '<span class="platform-tag platform-x"><i class="bi bi-twitter"></i> X</span>',
+                'status'          => 'enable',
+                'created_at'      => date('Y-m-d H:i:s')
+            ],
+        ];
+
+        $this->db->insert_batch('posts_platform', $data);
+    }
+
+    public function down()
+    {
+        $this->dbforge->drop_table('posts_platform', TRUE);
+    }
+}

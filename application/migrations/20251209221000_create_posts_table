@@ -1,0 +1,67 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Migration_create_posts_table extends CI_Migration {
+
+    public function up()
+    {
+        if (!$this->db->table_exists('posts')) {
+
+            $this->dbforge->add_field([
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 10,
+                    'unsigned'       => TRUE,
+                    'auto_increment' => TRUE
+                ],
+                'title' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 700,
+                    'null'       => FALSE,
+                    'collation'  => 'utf8mb4_unicode_ci'
+                ],
+                'content' => [
+                    'type'      => 'LONGTEXT',
+                    'null'      => FALSE,
+                    'collation' => 'utf8mb4_unicode_ci'
+                ],
+                'char_count' => [
+                    'type'       => 'INT',
+                    'unsigned'   => TRUE,
+                    'default'    => 0
+                ],
+                'tagged_platform' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => TRUE,
+                    'collation'  => 'utf8mb4_unicode_ci'
+                ],
+                'pub_date' => [
+                    'type' => 'DATETIME',
+                    'null' => FALSE
+                ],
+                'priority' => [
+                    'type'    => 'TINYINT',
+                    'default' => 0,
+                    'null'    => FALSE
+                ]
+            ]);
+
+            $this->dbforge->add_key('id', TRUE);
+
+            $this->dbforge->add_key('priority');
+            $this->dbforge->add_key('pub_date');
+
+            $this->dbforge->create_table('posts', TRUE, [
+                'ENGINE'  => 'InnoDB',
+                'CHARSET' => 'utf8mb4',
+                'COLLATE' => 'utf8mb4_unicode_ci'
+            ]);
+        }
+    }
+
+    public function down()
+    {
+        $this->dbforge->drop_table('posts', TRUE);
+    }
+}
