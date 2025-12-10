@@ -58,13 +58,14 @@ if(!function_exists('check_array')){
     }
 }
 
-if(!function_exists('normalizeString')){
-    function normalizeString($string)
+if(!function_exists('getCharCount')){
+    function getCharCount($text)
     {
-        $string = trim($string);
-        $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
-        $string = preg_replace('/\s+/u', ' ', $string);
-        return $string;
+        $clean = trim($text);
+        $clean = strip_tags($text);
+        $clean = html_entity_decode($clean, ENT_QUOTES, 'UTF-8');
+        return mb_strlen($clean, 'UTF-8');
     }
 }
+
 ?>

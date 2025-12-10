@@ -20,6 +20,7 @@ class Rss_feeds extends CI_Controller {
 	public function feed_list()
 	{
 		$this->data['title'] = 'RSS Feed List';
+		$this->data['available_platforms'] = $this->db_operation->get_available_platforms();
 		$this->load->view('rss/feed_list', $this->data);
 	}
 
@@ -153,7 +154,7 @@ class Rss_feeds extends CI_Controller {
 
 		echo json_encode([
 			'status' => true,
-			'message' => 'Post deleted'
+			'msg' => 'Post deleted successfully !!'
 		]);
 	}
 
@@ -182,77 +183,8 @@ class Rss_feeds extends CI_Controller {
 
 		echo json_encode([
 			'status' => true,
-			'message' => 'Updated successfully'
+			'msg' => 'Post updated successfully !!'
 		]);
-	}
-
-	public function import_feed_data()
-	{
-		$feed_url = $this->input->post('feed_url');
-		$feed_url = trim($feed_url);
-		if(empty($feed_url)) {
-			$this->session->set_flashdata('error', 'Please enter valid RSS feed URL !!');
-			redirect(base_url('rss_feeds'));
-		}
-
-        $rss = @simplexml_load_file($feed_url);
-        if (!$rss) {
-			$this->session->set_flashdata('error', 'RSS feed not reachable or invalid URL.');
-			redirect(base_url('rss_feeds'));
-        }
-
-		$insertFeeds = [];
-
-        foreach ($rss->channel->item as $item) {
-            $title   = (string) trim(normalizeString($item->title));
-            $content = (string) trim($item->description);
-            $pubDate = date('Y-m-d H:i:s', strtotime((string)$item->pubDate));
-            $charCount = mb_strlen($content, 'UTF-8');
-			$insertFeeds[] = [
-				'title'      => $title,
-				'content'    => $content,
-				'char_count' => $charCount,
-				'pub_date'   => $pubDate,
-				'priority'   => 0
-			];
-		}
-
-		if(check_array($insertFeeds)) {
-
-			$titles = array_column($insertFeeds, 'title');
-
-			$existing = $this->db->select('title')
-							->where_in('title', $titles)
-							->get('posts')
-							->result_array();
-
-			if(check_array($existing)){
-				$existingTitles = array_column($existing, 'title');
-				$finalBatch = array_filter($insertFeeds, function($p) use ($existingTitles) {
-					return !in_array($p['title'], $existingTitles);
-				});
-
-				if(check_array($finalBatch)){
-					$insertFeeds = $finalBatch;
-				}
-			}
-			$inserted = false;
-			if(check_array($insertFeeds)){
-				$inserted = $this->db_operation->insert_posts_batch($insertFeeds);
-			}
-
-			if($inserted) {
-				$this->session->set_flashdata('success', 'RSS feed items imported successfully !!');
-			} else {
-				$this->session->set_flashdata('error', 'Failed to import RSS feed items !!');
-			}
-		} else {
-			$this->session->set_flashdata('warning', 'No feed items found to import !!');
-		}
-
-
-		redirect(base_url('rss_feeds'));
-
 	}
 
 	public function rss_dashboard_ajax_list()
@@ -296,9 +228,7 @@ class Rss_feeds extends CI_Controller {
 			'page'       => $page,
 			'limit'      => $limit
 		]);
-
 	}
-
 
 	public function update_priority_order() {
 		$order = json_decode($this->input->post('order'), true);
@@ -308,7 +238,98 @@ class Rss_feeds extends CI_Controller {
 						->update('posts', ['priority' => $item['priority']]);
 			}
 		}
-		echo json_encode(["status" => true]);
+		echo json_encode(["status" => true, "msg" => "Priority order updated successfully."]);
 	}
+
+	public function import_feed_data()
+	{
+		$feed_url = trim($this->input->post('feed_url'));
+		$sorting_order = strtoupper($this->input->post('sorting_order'));
+
+		if (empty($feed_url)) {
+			$this->session->set_flashdata('error', 'Please enter valid RSS feed URL !!');
+			redirect(base_url('rss_feeds'));
+		}
+
+		$this->load->library('Simplepie_lib');
+
+		$feed = $this->simplepie_lib->load_feed($feed_url);
+
+		if ($feed->error()) {
+			$this->session->set_flashdata('error', 'Feed error: ' . $feed->error());
+			redirect(base_url('rss_feeds'));
+		}
+
+		$items = [];
+
+		foreach ($feed->get_items() as $item) {
+
+			$image = null;
+
+			if ($enclosure = $item->get_enclosure()) {
+				$image = $enclosure->get_link();
+			}
+
+			if (!$image) {
+				$description = $item->get_description();
+				preg_match('/<img.*?src=["\'](.*?)["\']/', $description, $match);
+				$image = $match[1] ?? null;
+			}
+
+			$title = trim($item->get_title());
+
+			if($title != '') {
+				$content = $item->get_content();
+				$items[] = [
+					'title'      => $title,
+					'content'    => $content,
+					'char_count' => getCharCount($title),
+					'pub_date'   => $item->get_date('Y-m-d H:i:s'),
+					'image'      => $image,
+				];
+			}
+		}
+
+		if (check_array($items)) {
+			usort($items, function($a, $b) use ($sorting_order) {
+				$t1 = strtotime($a['pub_date']);
+				$t2 = strtotime($b['pub_date']);
+				return $sorting_order === 'ASC' ? ($t1 <=> $t2) : ($t2 <=> $t1);
+			});
+		}
+
+		if (check_array($items)) {
+			$titles = array_column($items, 'title');
+			$existing = $this->db->select('title')
+								->where_in('title', $titles)
+								->get('posts')
+								->result_array();
+			if (check_array($existing)) {
+				$existingTitles = array_column($existing, 'title');
+				$items = array_filter($items, function($p) use ($existingTitles) {
+					return !in_array($p['title'], $existingTitles);
+				});
+			}
+		}
+
+		$inserted = false;
+
+		if (check_array($items)) {
+			$inserted = $this->db_operation->insert_posts_batch($items);
+		}
+
+		if ($inserted) {
+			$this->session->set_flashdata('success', 'RSS feed items imported successfully !!');
+		} else {
+			$msg = empty($items)
+				? 'No feed items found to import !!'
+				: 'Failed to import RSS feed items !!';
+
+			$this->session->set_flashdata('error', $msg);
+		}
+
+		redirect(base_url('rss_feeds'));
+	}
+
 
 }

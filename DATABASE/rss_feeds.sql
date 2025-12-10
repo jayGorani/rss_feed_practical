@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 09, 2025 at 08:40 PM
+-- Generation Time: Dec 10, 2025 at 12:53 PM
 -- Server version: 9.1.0
 -- PHP Version: 7.4.33
 
@@ -24,25 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migrations`
---
-
-DROP TABLE IF EXISTS `migrations`;
-CREATE TABLE IF NOT EXISTS `migrations` (
-  `version` bigint NOT NULL,
-  PRIMARY KEY (`version`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `migrations`
---
-
-INSERT INTO `migrations` (`version`) VALUES
-(0);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `posts`
 --
 
@@ -50,9 +31,10 @@ DROP TABLE IF EXISTS `posts`;
 CREATE TABLE IF NOT EXISTS `posts` (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(700) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `content` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `char_count` int UNSIGNED NOT NULL DEFAULT '0',
-  `tagged_platform` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` text COLLATE utf8mb4_unicode_ci,
+  `tagged_platform` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `pub_date` datetime NOT NULL,
   `priority` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -89,8 +71,8 @@ INSERT INTO `posts_platform` (`platform_id`, `platfrom_name`, `char_max_lenth`, 
 (3, 'TikTok', 0, '<span class=\"platform-tag platform-tiktok\"><i class=\"bi bi-tiktok\"></i> TikTok </span>', 'enable', '2025-12-09 20:04:23'),
 (4, 'Instagram', 0, '<span class=\"platform-tag platform-instagram\">\n<i class=\"bi bi-instagram\"></i> Instagram </span>', 'enable', '2025-12-09 20:04:23'),
 (5, 'Threads', 0, '<span class=\"platform-tag platform-threads\">\r\n<i class=\"bi bi-threads\"></i> Threads</span>', 'enable', '2025-12-09 20:04:42'),
-(6, 'Bluesky', 0, '<span class=\"platform-tag platform-bluesky\">\r\n    <i class=\"bi bi-cloud\"></i> Bluesky\r\n</span>', 'enable', '2025-12-09 20:04:42'),
-(7, 'X', 280, '<span class=\"platform-tag platform-x\">\n    <i class=\"bi bi-twitter\"></i> X\n</span>', 'enable', '2025-12-09 20:05:03');
+(6, 'Bluesky', 0, '<span class=\"platform-tag platform-bluesky\">\r\n<i class=\"bi bi-cloud\"></i> Bluesky\r\n</span>', 'enable', '2025-12-09 20:04:42'),
+(7, 'X', 280, '<span class=\"platform-tag platform-x\">\n<i class=\"bi bi-twitter\"></i> X\n</span>', 'enable', '2025-12-09 20:05:03');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

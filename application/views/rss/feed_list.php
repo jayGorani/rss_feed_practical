@@ -58,6 +58,24 @@
             animation: fadeInDown 0.6s ease;
         }
 
+        .drag-handle {
+            cursor: grab;
+            color: #999;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .drag-handle:hover {
+            color: #667eea;
+            transform: scale(1.1);
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
         .empty-state {
             text-align: center;
             padding: 4rem 2rem;
@@ -81,6 +99,25 @@
         .empty-state p {
             color: #7f8c8d;
             font-size: 1.1rem;
+        }
+
+        .text-danger-bold {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .post-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .post-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         @keyframes fadeInDown {
@@ -431,6 +468,16 @@
             color: #c62828;
         }
 
+        .priority-cell {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .priority-cell {
+            justify-content: flex-end;
+        }
+
         @media (max-width: 768px) {
             .page-header {
                 text-align: center;
@@ -487,6 +534,7 @@
                     <thead>
                         <tr>
                             <th>Priority</th>
+                            <th>Image</th>
                             <th>Title</th>
                             <th>Char Count</th>
                             <th>Social Platforms</th>
@@ -534,60 +582,30 @@
                         <div class="mb-3">
                             <label class="form-label"><i class="bi bi-share"></i> Social Platforms</label>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-check">
-                                        <input class="form-check-input" name="socaial_platform[]" type="checkbox" id="facebook" data-platform-id="1" value="1">
-                                        <label class="form-check-label" for="facebook">
-                                            <i class="bi bi-facebook"></i> Facebook
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" name="socaial_platform[]" type="checkbox" id="linkedin" data-platform-id="2" value="2">
-                                        <label class="form-check-label" for="linkedin">
-                                            <i class="bi bi-linkedin"></i> LinkedIn
-                                        </label>
-                                    </div>
+                                <div class="row">
+                                    <?php foreach ($available_platforms as $p): ?>
+                                        <div class="col-md-6 mb-2">
+                                            <div class="form-check">
+                                                <input
+                                                    class="form-check-input"
+                                                    name="socaial_platform[]"
+                                                    type="checkbox"
+                                                    id="<?= $p['platfrom_name']; ?>"
+                                                    data-platform-id="<?= $p['platform_id']; ?>"
+                                                    value="<?= $p['platform_id']; ?>"
+                                                    data-maxCharlength = "<?= $p['char_max_lenth']; ?>"
+                                                >
+                                                <label class="form-check-label" for="platform_<?= $p['platform_id']; ?>">
+                                                    <?= trim($p['tagged_html']); ?>
+                                                </label>
 
-                                    <div class="form-check">
-                                        <input class="form-check-input" name="socaial_platform[]"type="checkbox" id="tiktok" data-platform-id="3" value="3">
-                                        <label class="form-check-label" for="tiktok">
-                                            <i class="bi bi-tiktok"></i> TikTok
-                                        </label>
-                                    </div>
-
+                                                <?php echo $p['char_max_lenth'] ? '&nbsp;<span class=text-danger-bold>(Max ' . $p['char_max_lenth'] . ' chars) </span>' : ''; ?>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
                                 </div>
-                                <div class="col-md-6">
-
-                                    <div class="form-check">
-                                        <input class="form-check-input" name="socaial_platform[]" type="checkbox" id="instagram" data-platform-id="4" value="4">
-                                        <label class="form-check-label" for="instagram">
-                                            <i class="bi bi-instagram"></i> Instagram
-                                        </label>
-                                    </div>
-
-                                    <div class="form-check">
-                                        <input class="form-check-input" name="socaial_platform[]" type="checkbox" id="threads" data-platform-id="5" value="5">
-                                        <label class="form-check-label" for="threads">
-                                            <i class="bi bi-threads"></i> Threads
-                                        </label>
-                                    </div>
-
-                                    <div class="form-check">
-                                        <input class="form-check-input" name="socaial_platform[]" type="checkbox" id="bluesky" data-platform-id="6" value="6">
-                                        <label class="form-check-label" for="bluesky">
-                                            <i class="bi bi-cloud"></i> Bluesky
-                                        </label>
-                                    </div>
-
-                                    <div class="form-check">
-                                        <input class="form-check-input" name="socaial_platform[]" type="checkbox" id="x" checked data-platform-id="7" value="7">
-                                        <label class="form-check-label" for="x">
-                                            <i class="bi bi-twitter-x"></i> X
-                                        </label>
-                                    </div>
 
 
-                                </div>
                             </div>
                         </div>
 
@@ -613,14 +631,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
     <script>
-        // Delete functionality
-        document.querySelectorAll('.btn-delete').forEach(btn => {
-            btn.addEventListener('click', function() {
-                if(confirm('Are you sure you want to delete this post?')) {
-                    this.closest('tr').remove();
-                }
-            });
-        });
+
 
         // Pagination functionality
         document.querySelectorAll('.pagination .page-link').forEach(link => {
@@ -629,12 +640,10 @@
                 if (!this.parentElement.classList.contains('disabled') &&
                     !this.parentElement.classList.contains('active')) {
 
-                    // Remove active class from all
                     document.querySelectorAll('.pagination .page-item').forEach(item => {
                         item.classList.remove('active');
                     });
 
-                    // Add active to clicked item (if it's a number)
                     if (!isNaN(this.textContent.trim())) {
                         this.parentElement.classList.add('active');
                     }
@@ -715,9 +724,24 @@
 
                     html += `
                         <tr data-id="${post.id}">
+
+
                             <td data-label="Priority">
-                                <span class="priority-badge">${post.priority}</span>
+                                <div class="priority-cell">
+                                    <i class="bi bi-grip-vertical drag-handle"></i>
+                                    <span class="priority-badge">${post.priority}</span>
+                                </div>
                             </td>
+
+                            <td data-label="Image">
+                                ${post.image && post.image !== ""
+                                    ? `<img src="${post.image}" class="post-image"
+                                            onerror="this.onerror=null; this.outerHTML='<i class=&quot;bi bi-image post-image&quot; style=&quot;font-size:3rem;color:#ccc;display:flex;align-items:center;justify-content:center;height:80px;width:80px;&quot;></i>';">`
+                                    : `<i class="bi bi-image post-image"
+                                        style="font-size: 3rem; color: #ccc; display: flex; align-items: center; justify-content: center; height: 80px; width: 80px;"></i>`
+                                }
+                            </td>
+
                             <td data-label="Title">
                                 <div class="post-title">${post.title}</div>
                                 <div class="post-date">
@@ -793,13 +817,13 @@
                 });
             });
 
-
             $.ajax({
                 url: "<?= base_url('rss_feeds/update_priority_order') ?>",
                 method: "POST",
                 data: {order: JSON.stringify(newOrder)},
-                success: function () {
-                    console.log("Priority Saved");
+                success: function (res) {
+                    res = JSON.parse(res);
+                    showMsg('success', res.msg);
                 }
             });
         }
@@ -814,9 +838,11 @@
 
         $(document).on("click", ".deleteBtn", function () {
             let id = $(this).data("id");
-            if(confirm('Are you sure you want to delete this post?')) {
+            if(confirm('Are you sure you want to delete this post ?')) {
                 $.post("<?= base_url('rss_feeds/delete/') ?>" + id, function (res) {
                     loadFeeds(1);
+                    res = JSON.parse(res);
+                    showMsg('success', res.msg);
                 });
             }
         });
@@ -842,27 +868,33 @@
 
 
         $("#saveChangesBtn").click(function (e) {
-
             e.preventDefault();
-            let max_twitter_limit = 280;
-
-            const istwitterChecked = $('#editForm .form-check-input[data-platform-id="7"]').is(':checked');
             const text = $("#edit_title").val().trim();
             const length = text.length;
-
             $("#maxlenghcontenterror").empty();
-
-            if (istwitterChecked && length > max_twitter_limit) {
-                $("#maxlenghcontenterror").text(`This post has ${length} characters, which exceeds the ${max_twitter_limit} character limit for Twitter.`);
-                $(".content_error").show();
-                return false;
+            $(".content_error").hide();
+            let limits = $('#editForm .form-check-input:checked')
+                .map(function () {
+                    const maxLen = parseInt($(this).data("maxcharlength"));
+                    return maxLen > 0 ? maxLen : null;
+                })
+                .get();
+            if (limits.length > 0) {
+                const minLimit = Math.min(...limits);
+                if (length > minLimit) {
+                    $("#maxlenghcontenterror").text(
+                        `This post has ${length} characters, which exceeds the max allowed limit of ${minLimit}.`
+                    );
+                    $(".content_error").show();
+                    return false;
+                }
             }
-
             $.post("<?= base_url('rss_feeds/update') ?>",
                 $("#editForm").serialize(),
                 function (res) {
                     $("#editModal").modal('hide');
                     loadFeeds(1);
+                    showMsg('success', res.msg);
                 },
             "json");
         });

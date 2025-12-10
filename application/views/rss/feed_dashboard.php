@@ -54,6 +54,21 @@
             gap: 1.5rem;
             animation: fadeInDown 0.6s ease;
         }
+
+        .post-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .post-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
         @keyframes fadeInDown {
             from {
                 opacity: 0;
@@ -196,6 +211,15 @@
             transform: translateY(-8px);
             box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
+        /* .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        } */
+
         .post-header {
             display: flex;
             justify-content: space-between;
@@ -204,6 +228,27 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
+
+        .post-header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .post-thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .post-thumbnail:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
         .priority-badge {
             display: inline-flex;
             align-items: center;
@@ -453,15 +498,16 @@
 
         <div class="posts-container" id="postsContainer"></div>
 
-        <div class="pagination-container">
-            <nav id="paginationLinks"></nav>
-        </div>
-
         <div class="empty-state" id="emptyState" style="display: none;">
             <i class="bi bi-inbox"></i>
             <h3>No Posts Found</h3>
             <p>No posts found for the be display.</p>
         </div>
+
+        <div class="pagination-container">
+            <nav id="paginationLinks"></nav>
+        </div>
+
 
     </div>
 
@@ -524,7 +570,17 @@
                     html += `
                         <div class="post-card">
                             <div class="post-header">
-                                <span class="priority-badge">#${p.priority}</span>
+                                <div class="post-header-left">
+                                    <span class="priority-badge">#${p.priority}</span>
+
+                                    ${p.image && p.image !== ""
+                                        ? `<img src="${p.image}" class="post-image"
+                                                onerror="this.onerror=null; this.outerHTML='<i class=&quot;bi bi-image post-image&quot; style=&quot;font-size:3rem;color:#ccc;display:flex;align-items:center;justify-content:center;height:80px;width:80px;&quot;></i>';">`
+                                        : `<i class="bi bi-image post-image"
+                                            style="font-size: 3rem; color: #ccc; display: flex; align-items: center; justify-content: center; height: 80px; width: 80px;"></i>`
+                                    }
+
+                                </div>
                                 <div class="post-date">
                                     <i class="bi bi-calendar-event"></i>
                                     ${p.pub_date}
@@ -534,7 +590,7 @@
                             <h2 class="post-title">${p.title}</h2>
 
                             <p class="post-excerpt">
-                                ${p.content.substring(0, 120)}...
+                                ${p.content.substring(0, 300)}...
                             </p>
 
                             <div class="post-footer">

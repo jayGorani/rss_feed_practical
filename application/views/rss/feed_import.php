@@ -28,7 +28,7 @@
                         <label for="sortMode" class="form-label">
                             <i class="bi bi-sort-down"></i> Sort Mode
                         </label>
-                        <select class="form-select" id="sortMode">
+                        <select class="form-select" id="sortMode" name="sorting_order">
                             <option value="asc" selected>ASC (Oldest → Newest)</option>
                             <option value="desc">DESC (Newest → Oldest)</option>
                         </select>

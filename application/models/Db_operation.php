@@ -50,7 +50,7 @@ class Db_operation extends CI_Model {
     public function get_posts($limit, $offset, $platform = 0, $where_arr = array())
     {
         $this->db->select("
-            id, title, content, char_count, tagged_platform, priority,
+            id, title, content, char_count, tagged_platform, priority, image,
             DATE_FORMAT(pub_date, '%d %b %Y, %h:%i %p') AS pub_date
         ");
         $this->db->from('posts');
