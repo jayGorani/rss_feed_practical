@@ -469,59 +469,8 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <?php /*
-                    <tbody id="postsTableBody">
 
-                       <?php foreach ($posts as $post): ?>
-
-                            <tr>
-                                <td data-label="Priority">
-                                    <span class="priority-badge">1</span>
-                                </td>
-                                <td data-label="Title">
-                                    <div class="post-title"><?= $post['title'] ?></div>
-                                    <div class="post-date">
-                                        <i class="bi bi-calendar-event"></i> <?= $post['pub_date'] ?>
-                                    </div>
-                                </td>
-                                <td data-label="Char Count">
-                                    <span class="char-count"><?= $post['char_count'] ?> chars</span>
-                                </td>
-
-                                <td data-label="Social Platforms" id="platformTagged_<?= $post['id'] ?>">
-                                    <div class="platform-tags">
-                                    <?=
-                                        $tagged_html = '';
-                                        if(trim($tagged_platform) != ''){
-                                            $keys = array_filter(array_map('trim', explode(',', $post['tagged_platform'])));
-                                            foreach ($keys as $k) {
-                                                if (isset($templates[$k])) {
-                                                    $tagged_html .= $templates[$k];
-                                                }
-                                            }
-                                        }
-                                    ?>
-                                        <?= $tagged_html ?>
-                                    </div>
-                                </td>
-
-                                <td data-label="Actions">
-                                    <button class="action-btn btn-edit me-2" data-bs-toggle="modal" data-bs-target="#editModal">
-                                        <i class="bi bi-pencil"></i> Edit
-                                    </button>
-                                    <button class="action-btn btn-delete">
-                                        <i class="bi bi-trash"></i> Delete
-                                    </button>
-                                </td>
-                            </tr>
-
-                        <?php endforeach; ?>
-
-                    </tbody>
-
-                    */ ?>
-
-                        <tbody id="postsBody"></tbody>
+                    <tbody id="postsBody"></tbody>
 
                 </table>
             </div>
@@ -529,43 +478,6 @@
             <div class="pagination-container">
                 <nav id="paginationLinks"></nav>
             </div>
-
-
-
-
-            <!-- Pagination -->
-
-
-            <!-- <div class="pagination-container">
-                <nav>
-                    <? /*= $pagination */?>
-                </nav>
-            </div> -->
-
-
-            <!-- <div class="pagination-container">
-                <nav>
-                    <ul class="pagination">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1">
-                                <i class="bi bi-chevron-left"></i> Previous
-                            </a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">
-                                Next <i class="bi bi-chevron-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div> -->
-
-
         </div>
     </div>
 
@@ -920,7 +832,5 @@
 
 
     </script>
-
-
 
 <?php echo $footer; ?>
