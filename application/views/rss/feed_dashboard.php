@@ -1,6 +1,6 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-    echo $header;
+    echo $header;  // header file loaded from controller
 ?>
 
    <style>
@@ -54,7 +54,6 @@
             gap: 1.5rem;
             animation: fadeInDown 0.6s ease;
         }
-
         .post-image {
             width: 80px;
             height: 80px;
@@ -63,12 +62,10 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
-
         .post-image:hover {
             transform: scale(1.05);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-
         @keyframes fadeInDown {
             from {
                 opacity: 0;
@@ -211,15 +208,6 @@
             transform: translateY(-8px);
             box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
-        /* .post-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        } */
-
         .post-header {
             display: flex;
             justify-content: space-between;
@@ -228,13 +216,11 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
-
         .post-header-left {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-
         .post-thumbnail {
             width: 80px;
             height: 80px;
@@ -243,12 +229,10 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
-
         .post-thumbnail:hover {
             transform: scale(1.05);
             box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
-
         .priority-badge {
             display: inline-flex;
             align-items: center;
@@ -461,6 +445,8 @@
         }
     </style>
 
+    <!-- MAIN CONTAINER START  -->
+
     <div class="main-container">
         <div class="dashboard-header">
             <h1>
@@ -471,7 +457,6 @@
                 <i class="bi bi-cloud-download"></i> Import New RSS
             </button>
         </div>
-
         <div class="filter-section">
             <div class="row align-items-end">
                 <div class="col-md-6">
@@ -496,24 +481,29 @@
             </div>
         </div>
 
+        <!-- AJAX DATA HTML SELECTOR  -->
         <div class="posts-container" id="postsContainer"></div>
 
+        <!-- NO DATA FOUND HTML  -->
         <div class="empty-state" id="emptyState" style="display: none;">
             <i class="bi bi-inbox"></i>
             <h3>No Posts Found</h3>
             <p>No posts found for the be display.</p>
         </div>
 
+        <!-- AJAX PAGINATION HTML SELECTOR  -->
         <div class="pagination-container">
             <nav id="paginationLinks"></nav>
         </div>
 
-
     </div>
+
+    <!-- MAIN CONTAINER END  -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
     <script>
 
         function filterPosts() {
@@ -543,8 +533,10 @@
 
         function loadFeeds(page = 1) {
 
+            // LOAD POSTS VIA AJAX
             let selected_platform = $('#platformFilter').val();
-            $.post("<?= base_url('rss_feeds/rss_dashboard_ajax_list') ?>", {page: page,'platform' : selected_platform}, function(res) {
+
+            $.post("<?= base_url('rss_feeds/dashboard_posts_list') ?>", {page: page,'platform' : selected_platform}, function(res) {
 
                 if (!res.status) {
                     $("#emptyState").show();
@@ -567,6 +559,7 @@
                         .map(id => templates[id] ? templates[id] : "")
                         .join("");
 
+                    // UPDATE HTML VIA AJAX
                     html += `
                         <div class="post-card">
                             <div class="post-header">
@@ -619,7 +612,7 @@
                 currentPage = res.page;
             }, "json");
         }
-
+        // Initial data load
         loadFeeds(1);
 
         $(document).on("click", ".ajax-page", function (e) {
@@ -630,5 +623,7 @@
 
     </script>
 
-<?php echo $footer; ?>
+<?php
+    echo $footer; // footer file loaded from controller
+?>
 

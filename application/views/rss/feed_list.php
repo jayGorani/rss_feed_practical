@@ -1,7 +1,6 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-
-    echo $header;
+    echo $header;  // header file loaded from controller
 ?>
 
     <style>
@@ -9,41 +8,34 @@
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --danger-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
-
         body {
             background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         .navbar {
             background: var(--primary-gradient) !important;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
-
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
             color: white !important;
         }
-
         .nav-link {
             color: rgba(255,255,255,0.9) !important;
             font-weight: 500;
             transition: all 0.3s ease;
         }
-
         .nav-link:hover {
             color: white !important;
             transform: translateY(-2px);
         }
-
         .main-container {
             padding: 2rem;
             max-width: 1400px;
             margin: 0 auto;
         }
-
         .page-header {
             background: white;
             border-radius: 20px;
@@ -57,7 +49,6 @@
             gap: 1rem;
             animation: fadeInDown 0.6s ease;
         }
-
         .drag-handle {
             cursor: grab;
             color: #999;
@@ -66,16 +57,13 @@
             display: flex;
             align-items: center;
         }
-
         .drag-handle:hover {
             color: #667eea;
             transform: scale(1.1);
         }
-
         .drag-handle:active {
             cursor: grabbing;
         }
-
         .empty-state {
             text-align: center;
             padding: 4rem 2rem;
@@ -85,7 +73,6 @@
             animation: fadeIn 0.6s ease;
             margin-top: 20px !important;
         }
-
         .empty-state i {
             font-size: 5rem;
             color: #667eea;
@@ -100,12 +87,10 @@
             color: #7f8c8d;
             font-size: 1.1rem;
         }
-
         .text-danger-bold {
             color: #dc3545;
             font-weight: bold;
         }
-
         .post-image {
             width: 80px;
             height: 80px;
@@ -114,12 +99,10 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
-
         .post-image:hover {
             transform: scale(1.05);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-
         @keyframes fadeInDown {
             from {
                 opacity: 0;
@@ -130,7 +113,6 @@
                 transform: translateY(0);
             }
         }
-
         .page-header h1 {
             margin: 0;
             font-weight: 700;
@@ -139,7 +121,6 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         .btn-custom {
             padding: 0.75rem 1.5rem;
             border-radius: 12px;
@@ -150,27 +131,22 @@
             align-items: center;
             gap: 0.5rem;
         }
-
         .btn-primary-custom {
             background: var(--primary-gradient);
             color: white;
         }
-
         .btn-primary-custom:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
         }
-
         .btn-success-custom {
             background: linear-gradient(135deg, #0cebeb 0%, #20e3b2 100%);
             color: white;
         }
-
         .btn-success-custom:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(12, 235, 235, 0.3);
         }
-
         .info-text {
             background: linear-gradient(135deg, #fff5e6 0%, #ffe0b2 100%);
             border-left: 4px solid #ff9800;
@@ -179,7 +155,6 @@
             margin-bottom: 2rem;
             animation: slideInLeft 0.6s ease;
         }
-
         @keyframes slideInLeft {
             from {
                 opacity: 0;
@@ -190,12 +165,10 @@
                 transform: translateX(0);
             }
         }
-
         .info-text i {
             color: #f57c00;
             font-size: 1.2rem;
         }
-
         .posts-table-container {
             background: white;
             border-radius: 20px;
@@ -203,7 +176,6 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
             animation: fadeInUp 0.6s ease;
         }
-
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -214,21 +186,17 @@
                 transform: translateY(0);
             }
         }
-
         .table-responsive {
             border-radius: 12px;
             overflow: hidden;
         }
-
         .table {
             margin: 0;
         }
-
         .table thead {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
-
         .table thead th {
             border: none;
             padding: 1.25rem;
@@ -237,23 +205,19 @@
             font-size: 0.875rem;
             letter-spacing: 0.5px;
         }
-
         .table tbody tr {
             transition: all 0.3s ease;
             border-bottom: 1px solid #f0f0f0;
         }
-
         .table tbody tr:hover {
             background: #f8f9ff;
             transform: scale(1.01);
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
-
         .table tbody td {
             padding: 1.25rem;
             vertical-align: middle;
         }
-
         .priority-badge {
             display: inline-flex;
             align-items: center;
@@ -267,14 +231,12 @@
             color: white;
             box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
         }
-
         .post-title {
             font-weight: 600;
             color: #2c3e50;
             margin-bottom: 0.5rem;
             line-height: 1.4;
         }
-
         .post-date {
             color: #7f8c8d;
             font-size: 0.875rem;
@@ -282,7 +244,6 @@
             align-items: center;
             gap: 0.5rem;
         }
-
         .char-count {
             display: inline-block;
             background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
@@ -292,13 +253,11 @@
             font-weight: 600;
             font-size: 0.875rem;
         }
-
         .platform-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
         }
-
         .platform-tag {
             padding: 0.4rem 0.9rem;
             border-radius: 20px;
@@ -308,13 +267,11 @@
             align-items: center;
             gap: 0.4rem;
         }
-
         .platform-facebook { background: #e3f2fd; color: #1877f2; }
         .platform-linkedin { background: #e1f5fe; color: #0077b5; }
         .platform-tiktok { background: #fce4ec; color: #ff0050; }
         .platform-instagram { background: #f3e5f5; color: #e4405f; }
         .platform-threads { background: #f1f8e9; color: #101010; }
-
         .action-btn {
             padding: 0.5rem 1rem;
             border-radius: 8px;
@@ -323,27 +280,22 @@
             transition: all 0.3s ease;
             font-size: 0.875rem;
         }
-
         .btn-edit {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
-
         .btn-edit:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
-
         .btn-delete {
             background: var(--danger-gradient);
             color: white;
         }
-
         .btn-delete:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
         }
-
         .pagination-container {
             display: flex;
             justify-content: center;
@@ -352,12 +304,10 @@
             gap: 0.5rem;
             flex-wrap: wrap;
         }
-
         .pagination-container .pagination {
             margin: 0;
             gap: 0.5rem;
         }
-
         .pagination .page-item .page-link {
             border: none;
             background: white;
@@ -368,92 +318,76 @@
             transition: all 0.3s ease;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
-
         .pagination .page-item .page-link:hover {
             background: var(--primary-gradient);
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
-
         .pagination .page-item.active .page-link {
             background: var(--primary-gradient);
             color: white;
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
-
         .pagination .page-item.disabled .page-link {
             background: #f0f0f0;
             color: #999;
             cursor: not-allowed;
         }
-
         .modal-content {
             border-radius: 20px;
             border: none;
             overflow: hidden;
         }
-
         .modal-header {
             background: var(--primary-gradient);
             color: white;
             border: none;
             padding: 1.5rem 2rem;
         }
-
         .modal-header h5 {
             font-weight: 700;
         }
-
         .modal-body {
             padding: 2rem;
         }
-
         .form-label {
             font-weight: 600;
             color: #495057;
             margin-bottom: 0.75rem;
         }
-
         .form-control {
             border-radius: 12px;
             border: 2px solid #e0e0e0;
             padding: 0.75rem 1rem;
             transition: all 0.3s ease;
         }
-
         .form-control:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
         }
-
         .form-check {
             padding: 0.75rem;
             margin-bottom: 0.5rem;
             border-radius: 8px;
             transition: all 0.3s ease;
         }
-
         .form-check:hover {
             background: #f8f9ff;
         }
-
         .form-check-input {
             width: 1.5rem;
             height: 1.5rem;
             border: 2px solid #667eea;
         }
-
         .form-check-input:checked {
             background-color: #667eea;
             border-color: #667eea;
         }
-
         .form-check-label {
             font-weight: 500;
             margin-left: 0.5rem;
         }
-
         .alert-custom {
             border-radius: 12px;
             border: none;
@@ -462,45 +396,37 @@
             align-items: center;
             gap: 0.75rem;
         }
-
         .alert-danger {
             background: #ffebee;
             color: #c62828;
         }
-
         .priority-cell {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-
         .priority-cell {
             justify-content: flex-end;
         }
-
         @media (max-width: 768px) {
             .page-header {
                 text-align: center;
             }
-
             .table thead {
                 display: none;
             }
-
             .table tbody tr {
                 display: block;
                 margin-bottom: 1rem;
                 border-radius: 12px;
                 box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             }
-
             .table tbody td {
                 display: block;
                 text-align: right;
                 padding: 0.75rem;
                 border: none;
             }
-
             .table tbody td::before {
                 content: attr(data-label);
                 float: left;
@@ -509,6 +435,8 @@
             }
         }
     </style>
+
+    <!-- MAIN CONTAINER START  -->
 
     <div class="main-container">
         <div class="page-header">
@@ -522,12 +450,10 @@
                 </button>
             </div>
         </div>
-
         <div class="info-text">
             <i class="bi bi-info-circle-fill"></i>
             <strong>Tip:</strong> Drag and drop rows to change priority. Top row becomes priority 1, next row priority 2, etc.
         </div>
-
         <div class="posts-table-container">
             <div class="table-responsive">
                 <table class="table">
@@ -542,25 +468,30 @@
                         </tr>
                     </thead>
 
+                    <!-- AJAX DATA HTML SELECTOR  -->
                     <tbody id="postsBody"></tbody>
 
                 </table>
             </div>
 
+            <!-- NO DATA FOUND HTML  -->
             <div class="empty-state" id="emptyState" style="display: none;">
                 <i class="bi bi-inbox"></i>
                 <h3>No Posts Found</h3>
                 <p>No posts found for the be display.</p>
             </div>
 
+            <!-- AJAX PAGINATION HTML SELECTOR  -->
             <div class="pagination-container">
                 <nav id="paginationLinks"></nav>
             </div>
-
         </div>
     </div>
 
-    <!-- Edit Modal -->
+    <!-- MAIN CONTAINER END  -->
+
+    <!-- Edit Modal START -->
+
     <div class="modal fade" id="editModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -577,8 +508,6 @@
                                 <textarea class="form-control" rows="2" id="edit_title" name="title"></textarea>
                             </div>
                         </div>
-
-
                         <div class="mb-3">
                             <label class="form-label"><i class="bi bi-share"></i> Social Platforms</label>
                             <div class="row">
@@ -598,17 +527,13 @@
                                                 <label class="form-check-label" for="platform_<?= $p['platform_id']; ?>">
                                                     <?= trim($p['tagged_html']); ?>
                                                 </label>
-
                                                 <?php echo $p['char_max_lenth'] ? '&nbsp;<span class=text-danger-bold>(Max ' . $p['char_max_lenth'] . ' chars) </span>' : ''; ?>
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
-
-
                             </div>
                         </div>
-
                         <div class="alert alert-custom alert-danger content_error" style="display: none";>
                             <i class="bi bi-exclamation-triangle-fill"></i>
                             <span id="maxlenghcontenterror"></span>
@@ -627,23 +552,21 @@
         </div>
     </div>
 
+    <!-- EDIT MODAL END  -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
     <script>
 
-
-        // Pagination functionality
         document.querySelectorAll('.pagination .page-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (!this.parentElement.classList.contains('disabled') &&
                     !this.parentElement.classList.contains('active')) {
-
                     document.querySelectorAll('.pagination .page-item').forEach(item => {
                         item.classList.remove('active');
                     });
-
                     if (!isNaN(this.textContent.trim())) {
                         this.parentElement.classList.add('active');
                     }
@@ -651,26 +574,21 @@
             });
         });
 
-
         let draggedElement = null;
 
         const rows = document.querySelectorAll('#postsTableBody tr');
         rows.forEach(row => {
             row.setAttribute('draggable', true);
-
             row.addEventListener('dragstart', function() {
                 draggedElement = this;
                 this.style.opacity = '0.5';
             });
-
             row.addEventListener('dragend', function() {
                 this.style.opacity = '1';
             });
-
             row.addEventListener('dragover', function(e) {
                 e.preventDefault();
             });
-
             row.addEventListener('drop', function(e) {
                 e.preventDefault();
                 if (draggedElement !== this) {
@@ -678,13 +596,11 @@
                     const allRows = [...tbody.querySelectorAll('tr')];
                     const draggedIndex = allRows.indexOf(draggedElement);
                     const targetIndex = allRows.indexOf(this);
-
                     if (draggedIndex < targetIndex) {
                         this.after(draggedElement);
                     } else {
                         this.before(draggedElement);
                     }
-
                     updatePriorities();
                 }
             });
@@ -698,8 +614,19 @@
             });
         }
 
+        function getCurrentPage() {
+            return Number($("#paginationLinks .page-item.active .page-link").data("page")) || 1;
+        }
+
+        function resetPageFeedWithPage() {
+            let currentPage = getCurrentPage();
+            loadFeeds(currentPage);
+        }
+
         function loadFeeds(page = 1) {
-            $.post("<?= base_url('rss_feeds/rss_ajax_list') ?>", {page: page}, function(res) {
+
+            // Load posts via AJAX
+            $.post("<?= base_url('rss_feeds/rss_posts_list') ?>", {page: page}, function(res) {
                 if (!res.status) {
                     $("#emptyState").show();
                     $("#postsContainer").html("");
@@ -722,9 +649,9 @@
                         });
                     }
 
+                    // update html via ajax
                     html += `
                         <tr data-id="${post.id}">
-
 
                             <td data-label="Priority">
                                 <div class="priority-cell">
@@ -776,23 +703,19 @@
         }
 
         function enableDragAndDrop() {
+            // Drag and Drop functionality
             let draggedRow = null;
-
             $("#postsBody tr").attr("draggable", true);
-
             $("#postsBody tr").on("dragstart", function() {
                 draggedRow = this;
                 $(this).css("opacity", "0.5");
             });
-
             $("#postsBody tr").on("dragend", function() {
                 $(this).css("opacity", "1");
             });
-
             $("#postsBody tr").on("dragover", function(e) {
                 e.preventDefault();
             });
-
             $("#postsBody tr").on("drop", function(e) {
                 e.preventDefault();
                 if (draggedRow !== this) {
@@ -807,8 +730,8 @@
         }
 
         function updatePriorities() {
+            // Send updated priorities to server
             let newOrder = [];
-
             $("#postsBody tr").each(function(index) {
                 $(this).find(".priority-badge").text(index + 1);
                 newOrder.push({
@@ -816,18 +739,19 @@
                     priority: index + 1
                 });
             });
-
             $.ajax({
-                url: "<?= base_url('rss_feeds/update_priority_order') ?>",
+                url: "<?= base_url('rss_feeds/updatePriority') ?>",
                 method: "POST",
                 data: {order: JSON.stringify(newOrder)},
                 success: function (res) {
                     res = JSON.parse(res);
                     showMsg('success', res.msg);
+                    resetPageFeedWithPage();
                 }
             });
         }
 
+        // Initial data load
         loadFeeds(1);
 
         $(document).on("click", ".ajax-page", function (e) {
@@ -837,20 +761,23 @@
         });
 
         $(document).on("click", ".deleteBtn", function () {
+            // Delete post functionality
             let id = $(this).data("id");
             if(confirm('Are you sure you want to delete this post ?')) {
-                $.post("<?= base_url('rss_feeds/delete/') ?>" + id, function (res) {
+                $.post("<?= base_url('rss_feeds/deletePost/') ?>" + id, function (res) {
                     loadFeeds(1);
                     res = JSON.parse(res);
                     showMsg('success', res.msg);
+                    resetPageFeedWithPage();
                 });
             }
         });
 
         $(document).on("click", ".editBtn", function () {
+            // Edit post functionality
             let id = $(this).data("id");
             $('#editForm .form-check-input').prop('checked', false);
-            $.get("<?= base_url('rss_feeds/get/') ?>" + id, function (res) {
+            $.get("<?= base_url('rss_feeds/getPostDetails/') ?>" + id, function (res) {
                 res = JSON.parse(res);
                 const post = res.data;
                 $("#edit_post_id").val(post.id);
@@ -868,6 +795,7 @@
 
 
         $("#saveChangesBtn").click(function (e) {
+            // Save changes functionality for update post
             e.preventDefault();
             const text = $("#edit_title").val().trim();
             const length = text.length;
@@ -877,8 +805,7 @@
                 .map(function () {
                     const maxLen = parseInt($(this).data("maxcharlength"));
                     return maxLen > 0 ? maxLen : null;
-                })
-                .get();
+                }).get();
             if (limits.length > 0) {
                 const minLimit = Math.min(...limits);
                 if (length > minLimit) {
@@ -889,12 +816,12 @@
                     return false;
                 }
             }
-            $.post("<?= base_url('rss_feeds/update') ?>",
+            $.post("<?= base_url('rss_feeds/updatePost') ?>",
                 $("#editForm").serialize(),
                 function (res) {
                     $("#editModal").modal('hide');
-                    loadFeeds(1);
                     showMsg('success', res.msg);
+                    resetPageFeedWithPage();
                 },
             "json");
         });
@@ -902,4 +829,6 @@
 
     </script>
 
-<?php echo $footer; ?>
+<?php
+    echo $footer; // footer file loaded from controller
+?>

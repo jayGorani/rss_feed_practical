@@ -1,5 +1,7 @@
 <?php
 
+// ********************* DEBUGGING FUNCTIONS START *********************************************
+
 if (!function_exists('pr')) {
     function pr($array = '', $stop_execution = 1)
     {
@@ -10,6 +12,7 @@ if (!function_exists('pr')) {
         }
     }
 }
+
 if ( ! function_exists('vd')){
     function vd($array_or_string = '',$stop_execution = 1)
     {
@@ -41,6 +44,10 @@ if ( ! function_exists('query')){
     }
 }
 
+// ********************* DEBUGGING FUNCTIONS END *********************************************
+
+// ********************* UTILITY HELPER FUNCTIONS START *********************************************
+
 if ( ! function_exists('format_date')){
     function format_date($datestring, $format = 'd-m-Y') {
         return date($format, strtotime($datestring));
@@ -67,5 +74,7 @@ if(!function_exists('getCharCount')){
         return mb_strlen($clean, 'UTF-8');
     }
 }
+
+// ********************* UTILITY HELPER FUNCTIONS END *********************************************
 
 ?>

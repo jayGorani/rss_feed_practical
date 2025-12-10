@@ -13,12 +13,14 @@ class Rss_feeds extends CI_Controller {
 
 	public function index()
 	{
+		// LOAD RSS FEED IMPORT VIEW
 		$this->data['title'] = 'Import RSS Feed';
 		$this->load->view('rss/feed_import',$this->data);
 	}
 
 	public function feed_list()
 	{
+		// LOAD RSS FEED LIST VIEW
 		$this->data['title'] = 'RSS Feed List';
 		$this->data['available_platforms'] = $this->db_operation->get_available_platforms();
 		$this->load->view('rss/feed_list', $this->data);
@@ -26,63 +28,15 @@ class Rss_feeds extends CI_Controller {
 
 	public function dashboard()
 	{
+		// LOAD RSS FEED DASHBOARD VIEW
 		$this->data['title'] = 'RSS Feed Dashboard';
 		$this->data['available_platforms'] = $this->db_operation->get_available_platforms();
 		$this->load->view('rss/feed_dashboard', $this->data);
 	}
 
-	public function load_feed_ajax()
+	public function rss_posts_list()
 	{
-		$page = $this->input->post('page');
-		$page = ($page) ? $page : 0;
-
-		$limit = 10;
-		$offset = $page;
-
-		$total = $this->db_operation->count_posts();
-		$posts = $this->db_operation->get_posts($limit, $offset);
-
-		$this->load->library('pagination');
-		$config['total_rows'] = $total;
-		$config['base_url'] = '#';
-		$config['per_page'] = $limit;
-		$config['use_page_numbers'] = FALSE;
-
-		$config['full_tag_open'] = '<ul class="pagination">';
-		$config['full_tag_close'] = '</ul>';
-
-		$config['attributes'] = ['class' => 'page-link'];
-
-		$config['first_link'] = false;
-		$config['last_link'] = false;
-
-		$config['prev_tag_open'] = '<li class="page-item">';
-		$config['prev_tag_close'] = '</li>';
-		$config['prev_link'] = '<i class="bi bi-chevron-left"></i> Previous';
-
-		$config['next_tag_open'] = '<li class="page-item">';
-		$config['next_tag_close'] = '</li>';
-		$config['next_link'] = 'Next <i class="bi bi-chevron-right"></i>';
-
-		$config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
-		$config['cur_tag_close'] = '</a></li>';
-
-		$config['num_tag_open'] = '<li class="page-item">';
-		$config['num_tag_close'] = '</li>';
-
-		$this->pagination->initialize($config);
-
-		$pagination = $this->pagination->create_links();
-
-		echo json_encode([
-			'posts' => $posts,
-			'pagination' => $pagination,
-		]);
-	}
-
-
-	public function rss_ajax_list()
-	{
+		// LOAD RSS POSTS LIST WITH DATA WITH LIMIT,OFFSET VIA AJAX
 		$page = $this->input->post('page');
 		$limit = 10;
 		$offset = ($page - 1) * $limit;
@@ -117,6 +71,8 @@ class Rss_feeds extends CI_Controller {
 
 	private function create_pagination_links($page, $total, $limit)
 	{
+		// GENERATE PAGINATION LINKS HTML IN AJAX RESPONSE
+
 		$total_pages = ceil($total / $limit);
 		if ($total_pages <= 1) return '';
 
@@ -148,47 +104,67 @@ class Rss_feeds extends CI_Controller {
 		return $html;
 	}
 
-	public function delete($id)
+	public function deletePost($id)
 	{
+		// DELETE POST BY ID
 		$this->db->where('id', $id)->delete('posts');
-
 		echo json_encode([
 			'status' => true,
-			'msg' => 'Post deleted successfully !!'
+			'msg'    => 'Post deleted successfully !!'
 		]);
 	}
 
-	public function get($id)
+	public function getPostDetails($id)
 	{
+		// GET POST DETAILS BY ID FOR EDIT MODAL POPUP
 		$post = $this->db->where('id', $id)->get('posts')->row_array();
-
 		echo json_encode([
 			'status' => true,
-			'data' => $post
+			'data'   => $post
 		]);
 	}
 
-	public function update()
+	public function updatePost()
 	{
-		$id = $this->input->post('post_id');
-
-		$platforms = $this->input->post('socaial_platform');
+		// UPDATE POST DETAILS BY ID
+		$id              = $this->input->post('post_id');
+		$platforms       = $this->input->post('socaial_platform');
 		$platform_string = is_array($platforms) ? implode(",", $platforms) : "";
-		$data = [
-			'title' => $this->input->post('title'),
-			'tagged_platform' => $platform_string
+		$title           = trim($this->input->post('title'));
+
+		$responseData = [
+			'status' => false,
+			'msg'    => ''
 		];
 
-		$this->db->where('id', $id)->update('posts', $data);
+		if($title != '') {
 
-		echo json_encode([
-			'status' => true,
-			'msg' => 'Post updated successfully !!'
-		]);
+			$updateData = [
+				'title'           => $title,
+				'char_count'      => getCharCount($title),
+				'tagged_platform' => $platform_string
+			];
+
+			$whereArray = [
+				'id' => $id
+			];
+
+			$this->db_operation->update('posts', $updateData, $whereArray);
+
+			$responseData['status'] = true;
+			$responseData['msg']    = 'Post updated successfully !!';
+
+		} else {
+			$responseData['status'] = false;
+			$responseData['msg']    = 'Title cannot be empty !!';
+		}
+
+		echo json_encode($responseData);
 	}
 
-	public function rss_dashboard_ajax_list()
+	public function dashboard_posts_list()
 	{
+		// LOAD RSS POSTS LIST WITH FILTER BY PLATFORM WITH PAGINATION VIA AJAX FOR SOCIAL DASHBOARD
 		$page = $this->input->post('page');
 		$limit = 10;
 		$offset = ($page - 1) * $limit;
@@ -230,7 +206,8 @@ class Rss_feeds extends CI_Controller {
 		]);
 	}
 
-	public function update_priority_order() {
+	public function updatePriority() {
+		// UPDATE POSTS PRIORITY ORDER VIA AJAX
 		$order = json_decode($this->input->post('order'), true);
 		if(!empty($order)) {
 			foreach($order as $item) {
@@ -238,15 +215,19 @@ class Rss_feeds extends CI_Controller {
 						->update('posts', ['priority' => $item['priority']]);
 			}
 		}
-		echo json_encode(["status" => true, "msg" => "Priority order updated successfully."]);
+		echo json_encode([
+			"status" => true,
+			"msg"    => "Priority order updated successfully."
+		]);
 	}
 
 	public function import_feed_data()
 	{
+		// IMPRORT RSS FEED DATA
 		$feed_url = trim($this->input->post('feed_url'));
 		$sorting_order = strtoupper($this->input->post('sorting_order'));
 
-		if (empty($feed_url)) {
+		if ($feed_url == '') {
 			$this->session->set_flashdata('error', 'Please enter valid RSS feed URL !!');
 			redirect(base_url('rss_feeds'));
 		}
@@ -324,7 +305,6 @@ class Rss_feeds extends CI_Controller {
 			$msg = empty($items)
 				? 'No feed items found to import !!'
 				: 'Failed to import RSS feed items !!';
-
 			$this->session->set_flashdata('error', $msg);
 		}
 

@@ -52,9 +52,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'rss_feeds';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
-
-
-$route['rss_feeds/ajax_list'] = 'rss_feeds/ajax_list/$1';
-$route['rss_feeds/delete/(:num)'] = 'rss_feeds/delete/$1';
-$route['rss_feeds/get/(:num)'] = 'rss_feeds/get/$1';
-$route['rss_feeds/update'] = 'rss_feeds/update';
