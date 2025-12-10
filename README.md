@@ -34,5 +34,7 @@ If you change the directory name, please update the following:
 **CodeIgniter Version	3.1.13
 	PHP Version	7.4.33
 	MySQL	5.7+
-	Apache	Enabled mod_rewrite**
+	Apache	Enabled mod_rewrite
+	CURL and OPENSSL MUST BE ENABLED TO handshake the third party**
+
 
