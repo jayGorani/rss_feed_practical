@@ -765,7 +765,7 @@
                     }
 
                     html += `
-                        <tr>
+                        <tr data-id="${post.id}">
                             <td data-label="Priority">
                                 <span class="priority-badge">${post.priority}</span>
                             </td>
