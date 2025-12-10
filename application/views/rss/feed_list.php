@@ -58,6 +58,31 @@
             animation: fadeInDown 0.6s ease;
         }
 
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            animation: fadeIn 0.6s ease;
+            margin-top: 20px !important;
+        }
+
+        .empty-state i {
+            font-size: 5rem;
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            opacity: 0.5;
+        }
+        .empty-state h3 {
+            color: #495057;
+            margin-bottom: 1rem;
+        }
+        .empty-state p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
         @keyframes fadeInDown {
             from {
                 opacity: 0;
@@ -282,7 +307,6 @@
             box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
         }
 
-        /* Pagination Styles */
         .pagination-container {
             display: flex;
             justify-content: center;
@@ -475,9 +499,16 @@
                 </table>
             </div>
 
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <i class="bi bi-inbox"></i>
+                <h3>No Posts Found</h3>
+                <p>No posts found for the be display.</p>
+            </div>
+
             <div class="pagination-container">
                 <nav id="paginationLinks"></nav>
             </div>
+
         </div>
     </div>
 
@@ -660,7 +691,13 @@
 
         function loadFeeds(page = 1) {
             $.post("<?= base_url('rss_feeds/rss_ajax_list') ?>", {page: page}, function(res) {
-                if (!res.status) return;
+                if (!res.status) {
+                    $("#emptyState").show();
+                    $("#postsContainer").html("");
+                    $("#paginationLinks").html("");
+                    return;
+                }
+                $("#emptyState").hide();
 
                 let html = "";
 

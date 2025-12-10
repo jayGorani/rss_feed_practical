@@ -460,7 +460,7 @@
         <div class="empty-state" id="emptyState" style="display: none;">
             <i class="bi bi-inbox"></i>
             <h3>No Posts Found</h3>
-            <p>No posts found for the selected platform filter.</p>
+            <p>No posts found for the be display.</p>
         </div>
 
     </div>
@@ -500,7 +500,13 @@
             let selected_platform = $('#platformFilter').val();
             $.post("<?= base_url('rss_feeds/rss_dashboard_ajax_list') ?>", {page: page,'platform' : selected_platform}, function(res) {
 
-                if (!res.status) return;
+                if (!res.status) {
+                    $("#emptyState").show();
+                    $("#postsContainer").html("");
+                    $("#paginationLinks").html("");
+                    return;
+                }
+                $("#emptyState").hide();
                 const templates = res.templates;
                 let html = "";
                 const posts = res.data;

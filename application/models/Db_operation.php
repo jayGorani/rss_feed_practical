@@ -60,6 +60,7 @@ class Db_operation extends CI_Model {
         if ($platform) {
             $this->db->where("FIND_IN_SET(".$this->db->escape_str($platform).", tagged_platform) !=", 0);
         }
+        $this->db->order_by('priority', 'ASC');
         $this->db->limit($limit, $offset);
         $postsData = $this->db->get()->result_array();
         return $postsData;

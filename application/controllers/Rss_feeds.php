@@ -93,13 +93,11 @@ class Rss_feeds extends CI_Controller {
 
 		$available_platforms = $this->db_operation->get_available_platforms();
 
-		// Make templates array: platform_id => HTML
 		$templates = [];
 		foreach($available_platforms as $platform){
 			$templates[$platform['platform_id']] = $platform['tagged_html'];
 		}
 
-		// Convert each post's tagged_platform into array of keys
 		foreach($posts as $post){
 			if(!empty($post->tagged_platform)){
 				$post['tagged_platform_keys'] = array_filter(array_map('trim', explode(',', $post->tagged_platform)));
@@ -109,9 +107,9 @@ class Rss_feeds extends CI_Controller {
 		}
 
 		echo json_encode([
-			'status' => true,
-			'posts' => $posts,
-			'templates' => $templates,
+			'status'     => (!empty($posts)) ? true : false,
+			'posts'      => $posts,
+			'templates'  => $templates,
 			'pagination' => $pagination
 		]);
 	}
@@ -123,7 +121,6 @@ class Rss_feeds extends CI_Controller {
 
 		$html = '<ul class="pagination">';
 
-		// Previous
 		$prevDisabled = ($page == 1) ? 'disabled' : '';
 		$html .= '<li class="page-item ' . $prevDisabled . '">
 					<a href="#" class="page-link ajax-page" data-page="' . ($page - 1) . '">
@@ -131,7 +128,6 @@ class Rss_feeds extends CI_Controller {
 					</a>
 				</li>';
 
-		// Page numbers
 		for ($i = 1; $i <= $total_pages; $i++) {
 			$active = ($i == $page) ? 'active' : '';
 			$html .= '<li class="page-item ' . $active . '">
@@ -139,7 +135,6 @@ class Rss_feeds extends CI_Controller {
 					</li>';
 		}
 
-		// Next
 		$nextDisabled = ($page == $total_pages) ? 'disabled' : '';
 		$html .= '<li class="page-item ' . $nextDisabled . '">
 					<a href="#" class="page-link ajax-page" data-page="' . ($page + 1) . '">
@@ -293,13 +288,13 @@ class Rss_feeds extends CI_Controller {
 		}
 
 		echo json_encode([
-			'status' => true,
-			'data' => $posts,
-			'templates' => $templates,
+			'status'     => (!empty($posts)) ? true : false,
+			'data'       => $posts,
+			'templates'  => $templates,
 			'pagination' => $pagination,
-			'total' => $total,
-			'page' => $page,
-			'limit' => $limit
+			'total'      => $total,
+			'page'       => $page,
+			'limit'      => $limit
 		]);
 
 	}
@@ -315,11 +310,5 @@ class Rss_feeds extends CI_Controller {
 		}
 		echo json_encode(["status" => true]);
 	}
-
-
-
-
-
-
 
 }
