@@ -31,7 +31,7 @@
 	
 **🔧 2. Root .htaccess**
 	
-	If you rename the** main folder, update the rewrite base accordingly in your root-level .htaccess.**
+	If you rename the main folder, update the rewrite base accordingly in your root-level .htaccess.
 	
 **🔧 3. Database Configuration**
 
@@ -45,4 +45,5 @@
 	'username' => 'your_db_user',
 	'password' => 'your_db_password',
 	'database' => 'rss_feeds',
+
 
