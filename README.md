@@ -1,40 +1,48 @@
-﻿# rss_feed_practical
+**📡 RSS Feed Practical — CodeIgniter 3**
 
-📌 RSS Feed Practical — CodeIgniter 3
+	This project demonstrates a practical implementation of RSS Feeds using CodeIgniter 3.
+	It covers feed fetching, parsing, and rendering using CI3’s MVC structure.
 
-		This project demonstrates a practical implementation of RSS Feeds using CodeIgniter 3.
+**🖥️ Server Requirements**
 
-📁 Project Structure & Setup
+| Component       | Version / Requirement                                              |
+| --------------- | ------------------------------------------------------------------ |
+| **CodeIgniter** | 3.1.13                                                             |
+| **PHP**         | 7.4.33                                                             |
+| **MySQL**       | 5.7+                                                               |
+| **Apache**      | Must have `mod_rewrite` enabled                                    |
+| **Extensions**  | `CURL` and `OPENSSL` must be enabled for third-party API handshake |
 
-	Keep your main project directory name as: **rss_practical**
+**📁 Project Structure & Setup — CodeIgniter 3**
+	**✅ Project Directory**
+	**Keep the main project folder name as : rss_practical**
+	
+	If you change this directory name, make sure to update the following configurations:
 
-If you change the directory name, please update the following:
+**🔧 1. Base URL**
+	
+	Update the base URL in :
+	
+	 - application/config/config.php
 
-	1️⃣ **Base URL**
-		Edit in: **application/config/config.php**
-		**$config['base_url']**
+	Modify the base url :
+	
+	 - $config['base_url'] = 'http://localhost/rss_practical/';
+	
+**🔧 2. Root .htaccess**
+	
+	If you rename the** main folder, update the rewrite base accordingly in your root-level .htaccess.**
+	
+**🔧 3. Database Configuration**
 
-	2️⃣ **.htaccess File**
+	Update database credentials here:
+	
+	- application/config/database.php
 
-		**Root level .htaccess** may require rewrite base updates depending on your folder name.
-
-	3️⃣ **Database Credentials**
-
-		**Edit in: application/config/database.php**
-
-		'hostname' => 'localhost',
-		'username' => 'your_db_user',
-		'password' => 'your_db_pwd',
-		'database' => 'rss_feeds',
-
-
-🔧 **Server Requirements**
-
-
-**CodeIgniter Version	3.1.13
-	PHP Version	7.4.33
-	MySQL	5.7+
-	Apache	Enabled mod_rewrite
-	CURL and OPENSSL MUST BE ENABLED TO handshake the third party**
-
+	Example :
+	
+	'hostname' => 'localhost',
+	'username' => 'your_db_user',
+	'password' => 'your_db_password',
+	'database' => 'rss_feeds',
 
